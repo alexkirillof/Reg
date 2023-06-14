@@ -12,6 +12,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const { isLoading, register } = useContext(AuthContext);
 
+
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}/>
@@ -31,6 +32,7 @@ const RegisterScreen = ({ navigation }) => {
                 title="Р Е Г И С Т Р А Ц И Я"
                 onPress={() => {
                   register(phone, password);
+                  navigation.navigate("Login");
                 }}
         />
         <TouchableOpacity style={{ marginTop: 20 }} onPress={() => {

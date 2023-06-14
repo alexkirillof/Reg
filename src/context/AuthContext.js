@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import EncryptedStorage from "react-native-encrypted-storage";
 
 
 export const AuthContext = createContext();
@@ -23,9 +24,9 @@ export const AuthProvider = ({ children }) => {
     await axios.post(`${BASE_URL}`, {
       phone, password,
     }).then(res => {
-      let userInfo =  res.config.data;
-      let parsedData = JSON.parse(userInfo);
-      setRegPhone((parsedData.phone);
+      let userInfo =  res.config.data
+      let parsedData = JSON.parse(userInfo)
+      setRegPhone((prev)=>prev=parsedData.phone)
       console.log(regPhone);
       setRegPassword(parsedData.password);
       AsyncStorage.setItem("regPassword", parsedData.password);
@@ -45,15 +46,9 @@ export const AuthProvider = ({ children }) => {
     }).then(res => {
       let userInfo = res.config.data;
       let parsedData = JSON.parse(userInfo);
-      setLoginPhone(parsedData.phone);
-      AsyncStorage.setItem("loginPhone", parsedData.phone);
-      console.log(loginPhone);
-      console.log(regPhone);
-      setLoginPassword(parsedData.password);
-      AsyncStorage.setItem("loginPassword", parsedData.password);
-      console.log(loginPassword);
-      console.log(regPassword);
-      if((loginPhone===regPhone)&&(loginPassword===regPassword)){
+
+
+      if((parsedData.phone===regPhone)&&(parsedData.password===regPassword)){
         setIsAuth(true)
       }
       console.log(isAuth);
@@ -75,6 +70,8 @@ export const AuthProvider = ({ children }) => {
         console.log(res.config.data);
         AsyncStorage.removeItem("isAuth");
         setIsAuth(false);
+        setRegPassword('');
+        setRegPhone('');
         setIsLoading(false);
       })
       .catch(e => {
@@ -83,6 +80,21 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
+
+  async function storeUserSession() {
+    try {
+      await EncryptedStorage.setItem(
+        "user_session",
+        JSON.stringify({
+          isAuth: isAuth,
+        })
+      );
+
+      // Congrats! You've just stored your first value!
+    } catch (error) {
+      // There was an error on the native side
+    }
+  }
 
   return (
     <AuthContext.Provider value={{ isLoading, isAuth, register, login, logout }}>
