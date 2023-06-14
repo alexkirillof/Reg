@@ -10,21 +10,21 @@ const Stack = createNativeStackNavigator();
 
 function Navigation() {
 
-  const { userInfo } = useContext(AuthContext);
-  console.log(userInfo);
+  const { isAuth } = useContext(AuthContext);
+
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {userInfo.password ? (<Stack.Screen name="Home" component={HomeScreen} />) : (
+        {isAuth ? (<Stack.Screen name="Home" component={HomeScreen} />) : (
           <>
+            <Stack.Screen name="Register"
+                          component={RegisterScreen}
+                          options={{ headerShown: false }}
+            />
           <Stack.Screen name="Login"
                         component={LoginScreen}
                         options={{ headerShown: false }} />
-          <Stack.Screen name="Register"
-          component={RegisterScreen}
-        options={{ headerShown: false }}
-      />
           </>
       )}
 
