@@ -24,7 +24,6 @@ export const TodoList = ({navigation}) => {
       const response = await fetch(url);
       const json = await response.json();
       setData(json);
-      console.log("%c%s", "color: blue;", json[5].name);
       setFullData(json);
       setIsLoading(false);
 
@@ -35,12 +34,6 @@ export const TodoList = ({navigation}) => {
     }
   };
 
-  const contains = ( {name} , query) => {
-    if (name.includes(query)) {
-      return true;
-    }
-    return false;
-  };
 
 
   if (isLoading) {
@@ -82,12 +75,12 @@ export const TodoList = ({navigation}) => {
         renderItem={({ item }) => (
 
             <View  key={item.id}>
-              <TouchableOpacity style={styles.itemContainer}  onPress={() => navigation.navigate('Article', {id: item.id, name: item.name, email: item.email, avatar: item.avatar, telephone:item.telephone, description:item.description})}>
-              <Image source={{ uri: item.avatar }}
-                     style={styles.image}
-              />
+              <TouchableOpacity style={styles.itemContainer}  onPress={() => navigation.navigate('Article', {id: item.id, product_group: item.product_group, article: item.article, description: item.description, competitor:item.competitor})}>
               <View>
-                <Text> {item.name} </Text>
+                <Text> Задание: </Text>
+                <Text> {item.product_group} </Text>
+                <Text> {item.article} </Text>
+                <Text> {item.description} </Text>
               </View>
                 </TouchableOpacity>
             </View>
@@ -111,8 +104,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     backgroundColor:'#f3f6f0',
-    borderRadius: 25,
-    height: 60,
+    borderRadius: 10,
+    height: 100,
     marginLeft: 10,
     marginTop: 15,
     padding:10

@@ -21,11 +21,11 @@ export const ArticleContent = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   console.log(route.params);
-  const { id, name, email, avatar, telephone, description } = route.params ||{};
+  const { id, product_group , article, description, competitor } = route.params ||{};
 
 
   useEffect(() => {
-    navigation.setOptions({ name });
+    navigation.setOptions({ article });
     fetchData(API_ENDPOINT);
 
   }, []);
@@ -65,10 +65,11 @@ export const ArticleContent = ({ route, navigation }) => {
         <Text style={styles.arrow}> &#8592;</Text>
       </TouchableOpacity>
       <View style={styles.block}>
-        <Text style={styles.textName}> Имя: {name}</Text>
-        <Text style={styles.text}> Почта: {email}</Text>
-        <Text style={styles.text}> Телефон: {telephone}</Text>
-        <Text style={styles.text}> Резюме: {description}</Text>
+        <Text style={styles.textName}> Товарная группа: { product_group }</Text>
+        <Text style={styles.text}> Артикул: {article}</Text>
+        <Text style={styles.text}> Наименование: {description}</Text>
+        <Text style={styles.text}> Магазин конкурента: {competitor}</Text>
+
       </View>
 
 
