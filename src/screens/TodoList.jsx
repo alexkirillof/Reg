@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SearchForm } from "../components/Search/SearchForm";
+import { TodoList } from "../components/TodoList/TodoList";
 import { useNavigation } from '@react-navigation/native';
 
-export const Search = () => {
-  const [number, onChangeNumber] = React.useState("");
+export const TodoListScreen = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
-        <SearchForm navigation={navigation}/>
+        <TodoList navigation={navigation}/>
     </SafeAreaView>
   );
 };
@@ -18,8 +17,8 @@ export const Search = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 30,
+    padding: 20,
     paddingVertical: 50,
-    backgroundColor: "#d7ddd3"
+    backgroundColor: "#cee8ed"
   }
 });

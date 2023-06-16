@@ -21,7 +21,7 @@ export const ArticleContent = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   console.log(route.params);
-  const { id, name, email, avatar, telephone, description } = route.params;
+  const { id, name, email, avatar, telephone, description } = route.params ||{};
 
 
   useEffect(() => {
@@ -61,18 +61,16 @@ export const ArticleContent = ({ route, navigation }) => {
   }
   return (
     <View style={{ height: "100%" }}>
-      <TouchableOpacity style={styles.arrowBack} onPress={() => navigation.navigate('Search')} >
+      <TouchableOpacity style={styles.arrowBack} onPress={() => navigation.navigate("TodoList")}>
         <Text style={styles.arrow}> &#8592;</Text>
       </TouchableOpacity>
-      <View style={styles.container}>
-        <Image source={{ uri: avatar }} style={styles.ava} />
-        <View style={styles.block}>
-          <Text style={styles.textName}> Имя: {name}</Text>
-          <Text style={styles.text}> Почта: {email}</Text>
-          <Text style={styles.text}> Телефон: {telephone}</Text>
-          <Text style={styles.text}> Резюме: {description}</Text>
-        </View>
+      <View style={styles.block}>
+        <Text style={styles.textName}> Имя: {name}</Text>
+        <Text style={styles.text}> Почта: {email}</Text>
+        <Text style={styles.text}> Телефон: {telephone}</Text>
+        <Text style={styles.text}> Резюме: {description}</Text>
       </View>
+
 
     </View>
   );
@@ -101,14 +99,14 @@ const styles = StyleSheet.create({
   block: {
     flex: 1,
     flexDirection: "column",
+    marginTop: 15,
   },
   arrowBack: {
     height: 50,
     aspectRatio: 1,
     backgroundColor: "#ccc",
     borderRadius: 25,
-    paddingHorizontal:6
-
+    paddingHorizontal: 6,
 
 
   },

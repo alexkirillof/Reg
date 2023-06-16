@@ -5,12 +5,13 @@ import filter from "lodash.filter";
 
 const API_ENDPOINT = "https://647dde56af984710854a8134.mockapi.io/Posts";
 
-export const SearchForm = ({navigation}) => {
+export const TodoList = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [fullData, setFullData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showList, setShowList] = useState(false);
 
 
   useEffect(() => {
@@ -40,14 +41,6 @@ export const SearchForm = ({navigation}) => {
     }
     return false;
   };
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    const formattedQuery = query.toLowerCase();
-    const filteredData = filter(fullData, (user) => {
-      return contains(user, formattedQuery);
-    });
-    setData(filteredData);
-  };
 
 
   if (isLoading) {
@@ -68,22 +61,23 @@ export const SearchForm = ({navigation}) => {
 
   return (
     <View>
-      <TextInput
-        placeholder="П О И С К"
-        clearButtonMode="always"
-        style={styles.searchBox}
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={searchQuery}
-        onChangeText={(query) => handleSearch(query)}
-      />
+      <View style={styles.header}>
+        <Text style={styles.text}>
+     СПИСОК ДЕЛ
+        </Text>
+      </View>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => {setShowList(true)}}>
+        <Text style={styles.btnText}>ПОЛУЧИТЬ СПИСОК</Text>
+      </TouchableOpacity>
 
-      {searchQuery &&  <FlatList
+      {showList &&  <FlatList
         data={data}
         keyExtractor={(item) => {
           item.id;
         }}
-        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={()=>{setSearchQuery('')}}/>}
+        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={()=>{setShowList('')}}/>}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
 
@@ -129,4 +123,30 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 15,
   },
+  header: {
+    alignItems: "center",
+    marginBottom: 30,
+    marginTop: 30
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+  btn:{
+    height: 40,
+    backgroundColor: "#b9fbb0",
+    elevation: 3,
+    alignItems:'center',
+    borderRadius: 6,
+    shadowOffset: {
+      width: 2,
+      height: 2
+    },
+    marginBottom: 20,
+    marginTop:30,
+    padding: 10
+  },
+  btnText:{
+    fontWeight:'bold'
+  }
 });

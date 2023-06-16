@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Search } from "../screens/Search";
+import { TodoListScreen } from "../screens/TodoList";
 import { Article } from "../screens/Article";
 import { Profile } from "../screens/Profile";
 import { AuthSvg } from "../assets/svg/AuthSvg";
-import { SearchSvg } from "../assets/svg/SearchSvg";
+import { ListSvg } from "../assets/svg/ListSvg";
 import { ArticleSvg } from "../assets/svg/ArticleSvg";
 import { ProfileSvg } from "../assets/svg/ProfileSvg";
 import LoginScreen from "../screens/LoginScreen";
@@ -25,10 +25,10 @@ export const TabStack = () => {
         tabBarIcon: ({ focused, color, size}) => <ProfileSvg color={focused ? "blue" : "#374b4e"} />,
 
       }} />
-      <Tab.Screen name="Search" component={Search} options={{
+      <Tab.Screen name="TodoList" component={TodoListScreen} options={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarIcon: ({ focused, color, size}) => <SearchSvg color={focused ? "blue" : "#374b4e"} />,
+        tabBarIcon: ({ focused, color, size}) => <ListSvg color={focused ? "blue" : "#374b4e"} />,
       }} />
       <Tab.Screen name="Article" component={Article} options={{
         headerShown: false,
