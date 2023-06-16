@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import Navigation from "./src/components/Navigation";
+import Navigation from "./src/Navigation/Navigation";
 import { AuthProvider } from "./src/context/AuthContext";
 
 

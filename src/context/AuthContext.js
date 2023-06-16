@@ -10,26 +10,26 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [regName, setRegName] = useState("");
   const [regPhone, setRegPhone] = useState("");
   const [regPassword, setRegPassword] = useState("");
-  const [loginPhone, setLoginPhone] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
   const [isAuth, setIsAuth] = useState(false);
 
 
 
 
-  const register = async (phone, password) => {
+  const register = async (name, phone, password) => {
     setIsLoading(true);
     await axios.post(`${BASE_URL}`, {
-      phone, password,
+      name, phone, password,
     }).then(res => {
       let userInfo =  res.config.data
       let parsedData = JSON.parse(userInfo)
-      setRegPhone((prev)=>prev=parsedData.phone)
+      setRegName(()=>parsedData.name)
+      console.log(regName);
+      setRegPhone(()=>parsedData.phone)
       console.log(regPhone);
-      setRegPassword(parsedData.password);
-      AsyncStorage.setItem("regPassword", parsedData.password);
+      setRegPassword(()=>parsedData.password);
       console.log(regPassword);
       setIsLoading(false);
     }).catch(e => {
@@ -39,19 +39,14 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  const login = (phone, password) => {
+  const login = (name, phone, password) => {
     setIsLoading(true);
     axios.post(`${BASE_URL}`, {
-      phone, password,
+      name, phone, password,
     }).then(res => {
       let userInfo = res.config.data;
       let parsedData = JSON.parse(userInfo);
-
-
-      if((parsedData.phone===regPhone)&&(parsedData.password===regPassword)){
         setIsAuth(true)
-      }
-      console.log(isAuth);
       setIsLoading(false);
     }).catch(e => {
       console.log(`register error${e}`);
@@ -70,6 +65,7 @@ export const AuthProvider = ({ children }) => {
         console.log(res.config.data);
         AsyncStorage.removeItem("isAuth");
         setIsAuth(false);
+        setRegName('');
         setRegPassword('');
         setRegPhone('');
         setIsLoading(false);
@@ -81,23 +77,10 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  async function storeUserSession() {
-    try {
-      await EncryptedStorage.setItem(
-        "user_session",
-        JSON.stringify({
-          isAuth: isAuth,
-        })
-      );
 
-      // Congrats! You've just stored your first value!
-    } catch (error) {
-      // There was an error on the native side
-    }
-  }
 
   return (
-    <AuthContext.Provider value={{ isLoading, isAuth, register, login, logout }}>
+    <AuthContext.Provider value={{ isLoading, isAuth, register, login, logout,regName,regPhone }}>
       {children}
     </AuthContext.Provider>
   );

@@ -7,6 +7,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 
 const RegisterScreen = ({ navigation }) => {
 
+  const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -15,12 +16,20 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Spinner visible={isLoading}/>
+      <Spinner visible={isLoading} />
       <View style={styles.wrapper}>
         <TextInput style={styles.input}
-                   inputMode={"tel"}
+                   title="Имя Фамилия"
+                   placeholder="Имя Фамилия"
+                   value={name}
+                   image={false}
+                   onChangeText={text => setName(text)}
+        />
+        <TextInput style={styles.input}
+                   title="Номер телефона"
                    value={phone}
-                   placeholder="Ваш номер телефона"
+                   keyboardType="number-pad"
+                   placeholder={"+7 (999) 999 99 99"}
                    onChangeText={text => setPhone(text)}
         />
         <TextInput style={styles.input}
@@ -28,18 +37,20 @@ const RegisterScreen = ({ navigation }) => {
                    placeholder="П А Р О Л Ь"
                    onChangeText={text => setPassword(text)}
                    secureTextEntry />
-        <Button style={styles.link}
-                title="Р Е Г И С Т Р А Ц И Я"
-                onPress={() => {
-                  register(phone, password);
-                  navigation.navigate("Login");
-                }}
-        />
-        <TouchableOpacity style={{ marginTop: 20 }} onPress={() => {
-          navigation.navigate("Login");
-        }}>
-          <Text>авторизация</Text>
+        <TouchableOpacity>
+          <Button style={styles.link}
+                  title="Р Е Г И С Т Р А Ц И Я"
+                  onPress={() => {
+                    register(name, phone, password);
+                  }}
+          />
         </TouchableOpacity>
+        <View style={{ flexDirection: "row", marginTop: 20 }}>
+          <Text>Вы уже зарегистрированы? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.link}>Авторизация</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

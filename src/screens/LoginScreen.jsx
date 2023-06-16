@@ -5,7 +5,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
-
+  const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [password, setPassword] = useState(null);
   const { isLoading,login } = useContext(AuthContext);
@@ -15,19 +15,27 @@ const LoginScreen = ({ navigation }) => {
       <Spinner visible={isLoading}/>
       <View style={styles.wrapper}>
         <TextInput style={styles.input}
-                   inputMode={ 'tel'}
+                   title="Имя Фамилия"
+                   placeholder="Имя Фамилия"
+                   value={name}
+                   image={false}
+                   onChangeText={text => setName(text)}
+        />
+        <TextInput style={styles.input}
+                   title="Номер телефона"
                    value={phone}
-                   placeholder="Ваш номер телефона"
-                   onChangeText={text=>setPhone(text)}
+                   keyboardType="number-pad"
+                   placeholder={'+7 (999) 999 99 99'}
+                   onChangeText={text => setPhone(text)}
         />
         <TextInput style={styles.input}
                    value={password}
                    placeholder="П А Р О Л Ь"
-                   onChangeText={text=>setPassword(text)}
+                   onChangeText={text => setPassword(text)}
                    secureTextEntry />
-        <Button style={styles.link} title="В Х О Д" onPress={()=>{login(phone,password)}}/>
+        <Button style={styles.link} title="В Х О Д" onPress={()=>{login()}}/>
         <TouchableOpacity style={{ marginTop: 20 }} onPress={()=>{navigation.navigate('Register')}}>
-          <Text>регистрация</Text>
+          <Text style={styles.link}>регистрация</Text>
         </TouchableOpacity>
       </View>
     </View>
